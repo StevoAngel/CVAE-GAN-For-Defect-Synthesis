@@ -1,3 +1,14 @@
+---
+title: CVAE-GAN Defect Generator
+emoji: 🏭
+colorFrom: blue
+colorTo: indigo
+sdk: gradio
+base_path: demo
+app_file: app.py
+pinned: false
+---
+
 # CVAE-GAN Industrial Defect Generator
 
 This repository hosts the official implementation and demonstration of an industrial surface defect synthesizer. This project is a core component of a Master's Thesis focused on enhancing data availability for **Computer Vision** applications in the metal foundry industry.
