@@ -102,14 +102,14 @@ custom_css = """
 """
 
 with gr.Blocks(css=custom_css, theme=gr.themes.Soft()) as demo:
-    gr.Markdown("# 🏭 Síntesis de Porosidad Industrial mediante CVAE-GAN")
+    gr.Markdown("# 🏭 Síntesis de Defectos Industriales mediante CVAE-GAN")
     gr.Markdown("""
     **Demostración Interactiva de Tesis de Maestría**
     
     Este espacio despliega un modelo generativo entrenado para tareas de **Computer Vision** en la industria metalúrgica. 
     Utilizando **Aritmética de Espacio Latente**, el modelo desacopla la geometría de la pieza metálica de la textura de la porosidad.
     
-    * Ajusta el slider de **Intensidad de Defecto ($\alpha$)** para inyectar el vector direccional de anomalía en el espacio latente.
+    * Ajusta el slider de **Intensidad de Defecto (α)** para inyectar el vector direccional de anomalía en el espacio latente.
     * Cambia la **Semilla (Seed)** para explorar diferentes geometrías base de fundición.
     """)
     
