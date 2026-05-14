@@ -25,8 +25,8 @@ NUM_CLASSES = 2
 model = CVAE(latent_dims=LATENT_DIMS, num_classes=NUM_CLASSES)
 
 # PATHS TO YOUR WEIGHTS (Make sure to upload them to your repository in these folders)
-weights_path = "checkpoints/cvae_gen.pth"
-vector_path = "checkpoints/vector_defect.pt"
+weights_path = "demo/checkpoints/cvae_gen.pth"
+vector_path = "demo/checkpoints/vector_defect.pt"
 
 # Load the model weights
 if os.path.exists(weights_path):
