@@ -97,6 +97,12 @@ research/
 
 Model checkpoints and defect vectors used by the demo are stored in `demo/checkpoints/`.
 
+## Dataset Reference
+
+The casting images used for this project are based on the Kaggle dataset below:
+
+- https://www.kaggle.com/datasets/ravirajsinh45/real-life-industrial-dataset-of-casting-product
+
 ## Training Workflow
 
 1. Prepare the casting dataset for training.
