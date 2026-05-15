@@ -28,6 +28,15 @@ data/*
 # you can un-ignore them like this:
 # !demo/assets/*.png
 # !README_images/
+!demo/assets/
+!demo/assets/*.jpg
+!demo/assets/*.jpeg
+!demo/assets/*.png
+!demo/assets/*.gif
+!demo/assets/*.bmp
+!demo/assets/*.tiff
+!demo/assets/*.tif
+!demo/assets/*.webp
 
 # ==============================================================================
 # MODELS & CHECKPOINTS
