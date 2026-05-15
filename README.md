@@ -10,50 +10,134 @@ pinned: false
 
 # CVAE-GAN Industrial Defect Generator
 
-This repository hosts the official implementation and demonstration of an industrial surface defect synthesizer. This project is a core component of a Master's Thesis focused on enhancing data availability for **Computer Vision** applications in the metal foundry industry.
+This repository hosts the demonstration and research code for industrial defect synthesis with a CVAE-GAN architecture. It is focused on generating realistic casting defects for data augmentation in industrial **Computer Vision** workflows.
 
 ## Overview
 
-The synthesis of stochastic defects, such as porosity, remains a significant challenge in the field of **Deep Learning (DL)** applied to industrial inspection. This solution utilizes a **Conditional Variational Autoencoder (CVAE)** integrated with a **Generative Adversarial Network (GAN)**—collectively referred to as **CVAE-GAN**—to model the complex distribution of metallic textures.
+The synthesis of stochastic casting defects, such as porosity, remains a difficult problem in industrial inspection. This project uses a **Conditional Variational Autoencoder (CVAE)** together with a **Generative Adversarial Network (GAN)** to model the distribution of metallic textures and generate realistic defect variations.
 
-By disentangling the latent space, this model allows for the controlled generation of "good" (defect-free) and "bad" (defective) samples from the same underlying geometry, providing a robust tool for data augmentation in **Computer Vision** pipelines.
+By disentangling the latent space, the model can generate both defect-free and defective samples from the same underlying geometry, making it useful for inspection datasets and defect simulation.
 
-## Key Features
+## Gallery
 
-* **Controlled Synthesis:** Fine-grained control over defect intensity via latent vector manipulation.
-* **Structural Consistency:** Preservation of the metallic piece's geometry and lighting conditions through the CVAE-GAN architecture.
-* **Dual Output:** Simultaneous generation of healthy and defective counterparts for comparative analysis.
-* **Research-Oriented:** Designed specifically to address the "data scarcity" problem in industrial quality control.
+The examples below come from `demo/assets` and show the clean/defective pair used by the demo.
 
-## Technical Foundation
+| Clean part | Defective part |
+| --- | --- |
+| ![Clean casting part](demo/assets/cast_ok.jpeg) | ![Defective casting part](demo/assets/cast_def.jpeg) |
 
-The architecture is based on the principles of variational inference and adversarial training, drawing from the following foundational research:
-* **# CVAE-GAN Industrial Defect Generator
+Sample captions used for the reference pair:
 
-This repository hosts the official implementation and demonstration of an industrial surface defect synthesizer. This project is a core component of a Master's Thesis focused on enhancing data availability for **Computer Vision** applications in the metal foundry industry.
-
-## Overview
-
-The synthesis of stochastic defects, such as porosity, remains a significant challenge in the field of **Deep Learning (DL)** applied to industrial inspection. This solution utilizes a **Conditional Variational Autoencoder (CVAE)** integrated with a **Generative Adversarial Network (GAN)**—collectively referred to as **CVAE-GAN**—to model the complex distribution of metallic textures.
-
-By disentangling the latent space, this model allows for the controlled generation of "good" (defect-free) and "bad" (defective) samples from the same underlying geometry, providing a robust tool for data augmentation in **Computer Vision** pipelines.
+- Clean part: `photo of a top-down industrial casting inspection, circular machined component, flat grey ferrous material, flawless smooth surface, QC passed, neutral factory lighting, plain background`
+- Defective part: `photo of a top-down industrial casting inspection, circular machined component, flat grey ferrous material, severe porosity defect, surface blowholes and cavities, QC failed manufacturing reject, neutral factory lighting, plain background`
 
 ## Key Features
 
-* **Controlled Synthesis:** Fine-grained control over defect intensity via latent vector manipulation.
-* **Structural Consistency:** Preservation of the metallic piece's geometry and lighting conditions through the CVAE-GAN architecture.
-* **Dual Output:** Simultaneous generation of healthy and defective counterparts for comparative analysis.
-* **Research-Oriented:** Designed specifically to address the "data scarcity" problem in industrial quality control.
+- Controlled synthesis of casting defects through latent vector manipulation.
+- Structural consistency that preserves the geometry and lighting of the metallic piece.
+- Dual output generation for healthy and defective counterparts.
+- Research-oriented design focused on the data scarcity problem in industrial quality control.
 
 ## Technical Foundation
 
-The architecture is based on the principles of variational inference and adversarial training, drawing from the following foundational research:
-* **CVAE-GAN: Fine-Grained Image Generation through Adversarial Training** (Bao et al., 2017).
-* **Deep Residual Learning for Image Recognition** (He et al., 2016).
-* **Auto-Encoding Variational Bayes** (Kingma & Welling, 2013).
-* **Conditional Image Synthesis with Auxiliary Classifier GANs** (Odena et al., 2017).
-* **Learning Structured Output Representation using Deep Conditional Generative Models** (Sohn et al., 2015).
+The architecture is built around three components:
+
+- A **CVAE encoder** that compresses images into a latent representation.
+- A **conditional decoder/generator** that reconstructs or synthesizes parts from the latent vector and class label.
+- An optional **discriminator** that supports adversarial training and improves realism.
+
+The decoder uses latent arithmetic to inject a defect direction vector, allowing the model to move from a clean piece toward a defective one while preserving the underlying casting geometry.
+
+## Project Structure
+
+```text
+.
+├── demo/
+│   ├── app.py
+│   ├── model.py
+│   ├── assets/
+│   └── checkpoints/
+├── research/
+│   ├── data/
+│   │   ├── raw/
+│   │   └── processed/
+│   └── notebooks/
+│       └── train.ipynb
+├── environment.yml
+├── requirements.txt
+├── .gitattributes
+├── .gitignore
+├── LICENSE
+└── README.md
+```
+
+## Data Layout
+
+The project expects industrial casting data prepared for training and inference under the research folder.
+
+```text
+research/
+├── data/
+│   ├── raw/
+│   │   └── casting/
+│   │       └── casting_512x512/
+│   │           ├── ok_front/
+│   │           └── def_front/
+│   └── processed/
+│       └── casting/
+│           └── casting_512x512/
+│               ├── ok_front/
+│               │   ├── images/
+│               │   └── canny/
+│               └── def_front/
+│                   ├── images/
+│                   └── canny/
+└── notebooks/
+```
+
+Model checkpoints and defect vectors used by the demo are stored in `demo/checkpoints/`.
+
+## Training Workflow
+
+1. Prepare the casting dataset for training.
+2. Train the CVAE-GAN model in the research notebook.
+3. Export the learned weights and defect direction vector.
+4. Place the generated artifacts inside `demo/checkpoints/`.
+5. Launch the Gradio demo from `demo/app.py`.
+
+## Demo
+
+The Gradio interface in `demo/app.py` loads the CVAE defined in `demo/model.py` and produces a healthy reference image together with a defective variant controlled by alpha interpolation.
+
+To run the demo locally:
+
+```bash
+python demo/app.py
+```
+
+## Installation
+
+Create the Conda environment from `environment.yml` or install the lightweight dependencies from `requirements.txt`.
+
+```bash
+conda env create -f environment.yml
+conda activate cvae_gan_defect
+```
+
+or
+
+```bash
+pip install -r requirements.txt
+```
 
 ## Hardware & Performance
 
-The model was optimized for efficient inference, allowing it to run on standard hardware while maintaining the high fidelity required for **Computer Vision** defect detection tasks.
+The model is designed to run efficiently on standard hardware, while still producing high-fidelity synthetic defects for industrial inspection tasks. GPU acceleration is recommended for faster inference and training.
+
+## References
+
+The implementation follows standard ideas from variational inference, adversarial learning, and conditional generation, including CVAE, GAN, and residual learning techniques.
+
+## License
+
+See [LICENSE](LICENSE) for the project license.
